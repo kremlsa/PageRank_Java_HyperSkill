@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PageRank.iml" filepath="$PROJECT_DIR$/.idea/modules/PageRank.iml" group="PageRank" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PageRank/task/PageRank-task.iml" filepath="$PROJECT_DIR$/.idea/modules/PageRank/task/PageRank-task.iml" group="PageRank/PageRank-task" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PageRank/task/PageRank-task_main.iml" filepath="$PROJECT_DIR$/.idea/modules/PageRank/task/PageRank-task_main.iml" group="PageRank/PageRank-task" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PageRank/task/PageRank-task_test.iml" filepath="$PROJECT_DIR$/.idea/modules/PageRank/task/PageRank-task_test.iml" group="PageRank/PageRank-task" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/util.iml" filepath="$PROJECT_DIR$/.idea/modules/util/util.iml" group="PageRank/util" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/util_main.iml" filepath="$PROJECT_DIR$/.idea/modules/util/util_main.iml" group="PageRank/util" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/util_test.iml" filepath="$PROJECT_DIR$/.idea/modules/util/util_test.iml" group="PageRank/util" />
+    </modules>
+  </component>
+</project>

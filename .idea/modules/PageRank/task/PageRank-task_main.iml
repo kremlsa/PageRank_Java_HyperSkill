@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":PageRank-task:main" external.linked.project.path="$MODULE_DIR$/../../../../PageRank/task" external.root.project.path="$MODULE_DIR$/../../../.." external.system.id="GRADLE" external.system.module.group="PageRank" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../../../../PageRank/task/out/production/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../PageRank/task/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../PageRank/task/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: gov.nist.math:jama:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-math3:3.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jfree:jfreechart:1.0.19" level="project" />
+    <orderEntry type="library" name="Gradle: org.jfree:jcommon:1.0.23" level="project" />
+  </component>
+</module>

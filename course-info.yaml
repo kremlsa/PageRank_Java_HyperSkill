@@ -1,0 +1,12 @@
+type: hyperskill
+title: PageRank
+language: English
+summary: We all use Google. How does Google manage to return a relevant set of web
+  pages for your search in a blink of an eye? In this project, you will have a chance
+  to implement your own ranking algorithm for web pages based on the technology they
+  use in Google - PageRank.<br/><br/>Learn more at <a href="https://hyperskill.org">https://hyperskill.org/projects/84</a>
+programming_language: Java
+programming_language_version: 11
+content:
+- PageRank
+mode: Study

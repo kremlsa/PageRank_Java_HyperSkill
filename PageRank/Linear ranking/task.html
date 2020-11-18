@@ -1,0 +1,127 @@
+<h2 style="text-align: center;">Theory</h2>
+
+<p>PageRank (developed by Larry Page and Sergey Brin) revolutionized web search by generating a ranked list of web pages based on the underlying connectivity of the web. The PageRank algorithm is based on an ideal random web surfer who, when reaching a page, goes to the next page by clicking on a link. The surfer has equal probability of clicking any link on the page and, when reaching a page with no links, has equal probability of moving to any other page by typing in its URL. In addition, the surfer may occasionally choose to type in a random URL instead of following the links on a page. The PageRank is the ranked order of the pages from the most to the least probable page the surfer will be viewing.</p>
+
+<p><strong>PageRank as a linear algebra problem</strong></p>
+
+<p>Let's imagine a micro-internet, with just 6 websites (<strong>A</strong>pricot, <strong>B</strong>errysee, <strong>C</strong>owRome,<strong> D</strong>roid, <strong>e</strong>Sales, and <strong>F</strong>aceArea). Each website links to some of the others, and this forms a network as shown below:</p>
+
+<p style="text-align: center;"><img alt="" height="350" src="https://lh5.googleusercontent.com/z76mcwBxTuLFwyo9Fyg4JsFuQwS_10fKJCRTu6fmIUyOxRJS38KHppP44AyZYvFedKxlY8M6dU7Vvaxchas0KDt-7vzNvHeLH9o8eVn_0eYFRBxSOzqUyXH3Cla0noMMcRAefAwl" width="571"></p>
+
+<p>The design principle of PageRank is that important websites will be linked to by important websites. This somewhat recursive principle will form the basis of our thinking.</p>
+
+<p>Imagine we have 100 users on our micro-internet, each viewing a single website at a time. Each minute, the users follow a link on their website to another site on the micro-internet. After a while, the websites that are most linked to will have more users visiting them, and in the long run, each minute for every user that leaves a website, another will enter keeping the total numbers of users on each website constant. The PageRank is simply the ranking of websites by how many users they have on them at the end of this process.</p>
+
+<p>We represent the number of users on each website with the vector,</p>
+
+<p style="text-align: center;"><span class="math-tex">\(r = \begin{pmatrix} r_A \\ r_B \\ r_C \\ r_D \\ r_E \\ r_F \end{pmatrix}\)</span></p>
+
+<p>We need a way to calculate the number of users each website will have on it at the next minute (the "i+1" minute) based on the current minute (minute "i"). Intuitively, we can say that the number of users on Website A at the next minute is determined by the sum:</p>
+
+<p style="text-align: center;">(Probability of a user on A returning to A) * (Number of users on A now) + (Probability of a user on B going to A) * (Number of users on B now) + … + (Probability of a user on F going to A) * (Number of users on F now) </p>
+
+<p>or, in a more abbreviated form, and using "L" to represent the probabilities:</p>
+
+<p style="text-align: center;"><span class="math-tex">\(r_{_{A(i+1)}} = L_{_{A\to A}} r_{_{Ai}} + L_{_{B\to A}} r_{_{Bi}} + \cdots + L_{_{F\to A}} r_{_{Fi}}\)</span></p>
+
+<p>We can develop similar equations for every website, which we can then collect into a single matrix equation, like so:</p>
+
+<p style="text-align: center;"><span class="math-tex">\(r_{_{i+1}} = Lr_{_i}\)</span></p>
+
+<p>With the matrix L taking the form:</p>
+
+<p style="text-align: center;"><span class="math-tex">\(L = \begin{pmatrix} L_{A \rightarrow A} &amp; L_{B \rightarrow A} &amp; L_{C \rightarrow A} &amp; L_{D \rightarrow A} &amp; L_{E \rightarrow A} &amp; L_{F \rightarrow A} \\ L_{A \rightarrow B} &amp; L_{B \rightarrow B} &amp; L_{C \rightarrow B} &amp; L_{D \rightarrow B} &amp; L_{E \rightarrow B} &amp; L_{F \rightarrow B} \\ L_{A \rightarrow C} &amp; L_{B \rightarrow C} &amp; L_{C \rightarrow C} &amp; L_{D \rightarrow C} &amp; L_{E \rightarrow C} &amp; L_{F \rightarrow C} \\ L_{A \rightarrow D} &amp; L_{B \rightarrow D} &amp; L_{C \rightarrow D} &amp; L_{D \rightarrow D} &amp; L_{E \rightarrow D} &amp; L_{F \rightarrow D} \\ L_{A \rightarrow E} &amp; L_{B \rightarrow E} &amp; L_{C \rightarrow E} &amp; L_{D \rightarrow E} &amp; L_{E \rightarrow E} &amp; L_{F \rightarrow E} \\ L_{A \rightarrow F} &amp; L_{B \rightarrow F} &amp; L_{C \rightarrow F} &amp; L_{D \rightarrow F} &amp; L_{E \rightarrow F} &amp; L_{F \rightarrow F} \end{pmatrix}\)</span></p>
+
+<p>where the columns represent the probability (or <u><strong>L</strong></u>ikelihood, if you prefer) of leaving a website for any other website. The rows determine how likely you are to enter a website from any other, though these need not add to one. The long-term behavior of this system is when  <span class="math-tex">\(r_{_{i+1}} = r_{_i}\)</span>, so we'll drop the subscripts here, and that allows us to write,</p>
+
+<p><span class="math-tex">\(Lr = r\)</span></p>
+
+<p>which is an eigenvector equation for the matrix  <strong>L</strong>, with eigenvalue 1.</p>
+
+<p>For the matrix <strong>L</strong>, the sum of all elements in each column equals 1. Such a matrix is called a <strong>Stochastic matrix</strong> (also referred to as <strong>Markov’s matrix</strong>), and one of its eigenvalues is guaranteed to equal 1.</p>
+
+<h2 style="text-align: center;">Description</h2>
+
+<p>Complete the matrix <strong>L</strong> below, that describes micro-internet above, with just 6 websites. We've left out the column for which websites the FaceArea website (F) links to. Remember, this is the probability to click on another website from this one, so each column should add to one (by scaling by the number of links).</p>
+
+<pre><code class="language-java">double[][] L = {
+    {0    , 1./2., 1./3., 0 , 0     , ???},
+    {1./3., 0    , 0    , 0 , 1./2. , ???},
+    {1./3., 1./2., 0    , 1., 0     , ???},
+    {1./3., 0    , 1./3., 0 , 1./2. , ???},
+    {0    , 0    , 0    , 0 , 0     , ???},
+    {0    , 0    , 1./3., 0 , 0     , ???}
+};</code></pre>
+
+<p>For this task, you will need to use Jama, library to work with matrices in Java (https://math.nist.gov/javanumerics/jama/). Print the matrix L row-by-row with a precision of 3 decimal places. To print the matrix you can use the following command:</p>
+
+<pre><code class="language-java">import Jama.Matrix;
+...
+Matrix m = new Matrix(L);
+m.print(0, 3);</code></pre>
+
+<p>In principle, we could use a linear algebra library, as below, to calculate the eigenvalues and vectors. And this would work for a small system. However, this gets unmanageable for large systems. And since we only care about the principal eigenvector (the one with the largest eigenvalue, which will be 1 in this case), we can use the <em>power iteration method</em> which will scale better and faster for large systems.</p>
+
+<p>For calculating eigenvectors and eigenvalues use the following functions:</p>
+
+<pre><code class="language-java">import Jama.EigenvalueDecomposition;
+import Jama.Matrix;
+...
+Matrix m = new Matrix(L);
+// find eigenvalues
+EigenvalueDecomposition eigen = m.eig();
+final double [] realPart = eigen.getRealEigenvalues();
+// find eigenvectors
+Matrix evectors = eigen.getV();
+...</code></pre>
+
+<p>The variable <code class="language-java">realPart</code> is assigned a list of eigenvalues of matrix L.<br>
+The variable <code class="language-java">evectors</code> is assigned the matrix whose columns are the eigenvectors corresponding to those eigenvalues.<br>
+That way, the first e_vals element corresponds to the first e_vecs column, and so on.</p>
+
+<p>You can find more about using matrices in Jama <a target="_blank" href="https://math.nist.gov/javanumerics/jama/doc/Jama/Matrix.html" rel="noopener noreferrer nofollow">here</a>.</p>
+
+<p>Next, you need to find the principal eigenvector which has a corresponding eigenvalue 1.</p>
+
+<p>There will be a single column with value 1. You will need to extract it. Let's call it principalEvector.</p>
+
+<pre><code class="language-java">double[] principleEvector = ...</code></pre>
+
+<p>This vector is in fact PageRank, but to make it the PageRank of our micro-internet,  we need to make sure that the sum of all <code class="language-java">principleEvector</code> elements equals 100 since there are a hundred users in our micro-internet. How do you achieve that? Multiply each element of the vector by <code class="language-java">100 / sum</code>, where <code class="language-java">sum</code> is the sum of all <code class="language-java">principleEvector</code> elements. This process is called <strong>normalization</strong>.</p>
+
+<p>As a result of normalization, we get the PageRank for our system. Print this vector out after the L matrix, again showing three decimal places.</p>
+
+<pre><code class="language-java">...
+double sum = 0.00;
+for (double value : principalEvector) {
+    sum += value;
+}
+        
+double[] res = new double[principalEvector.length];
+for (int i = 0; i &lt; res.length; i++) {
+    res[i] = 100 * principalEvector[i] / sum;
+}
+
+for (double x : res) {
+    System.out.println(new DecimalFormat("#0.000").format(x));
+}</code></pre>
+
+<p>There is no need to understand how the algebraic method works, since, as mentioned above, we will use <em>the power iteration method</em>.</p>
+
+<h2 style="text-align: center;">Example</h2>
+
+<p>Example of an output of your program for this stage - note that your L matrix and eigenvector are going to be slightly different. In the diagram above, F doesn't even link to 3 websites as it does here - make sure you work out your own L matrix and use that to determine the correct output.</p>
+
+<pre><code class="language-no-highlight">0.000 0.500 0.333 0.000 0.000 0.000
+0.333 0.000 0.000 0.000 0.500 0.333
+0.333 0.500 0.000 1.000 0.000 0.000
+0.333 0.000 0.333 0.000 0.500 0.333
+0.000 0.000 0.000 0.000 0.000 0.333
+0.000 0.000 0.333 0.000 0.000 0.000
+
+16.981
+11.321
+33.962
+22.642
+3.774
+11.321</code></pre>

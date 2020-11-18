@@ -1,0 +1,91 @@
+<h2 style="text-align: center;">Theory</h2>
+
+<p>The system we'd just studied converged fairly quickly to the correct answer. Let's consider an extension to our micro-internet where things start to go wrong.</p>
+
+<p>Say a new website is added to the micro-internet: George's Website. This website is linked to by FaceArea and only links to itself.</p>
+
+<p style="text-align: center;"><img alt="" height="310" src="https://lh3.googleusercontent.com/r1xbgtAu53_3aGUOTvDPQnBF-QBFLy5r0A2szBSS1hY8ssvEdPPjcSu9kC2zOZznxivHrWgViLc7AzTV1Zra8S32yYKgk2xnIPBvt1vj4ZLo03Bfuxl9ywFQUz-q5IbcSKNYADf-" width="471"></p>
+
+<p>Intuitively, only FaceArea, which is in the bottom half of the page rank, links to this website amongst the two others it links to, so we might expect George's site to have a correspondingly low PageRank score.</p>
+
+<p>Build the new L matrix, call it L2 to distinguish it from the previous stage's L matrix, for the expanded micro-internet, and use Power-Iteration on the <span class="math-tex">\(r\)</span> vector. Observe what happens.</p>
+
+<p>Complete the matrix L2 below. After completing it print the L2 row-by-row with a precision of 3 decimal places.</p>
+
+<pre><code class="language-java">// We'll call this one L2, to distinguish it from the previous L.
+double[][] L2 = {
+    {0    , 1./2., 1./3., 0 , 0    , ??? , 0},
+    {1./3., 0    , 0    , 0 , 1./2., ??? , 0},
+    {1./3., 1./2., 0    , 1., 0    , ??? , 0},
+    {1./3., 0    , 1./3., 0 , 1./2., ??? , 0},
+    {0    , 0    , 0    , 0 , 0    , ??? , 0},
+    {0    , 0    , 1./3., 0 , 0    , ??? , 0},
+    {0    , 0    , 0    , 0 , 0    , ??? , 1.}
+};</code></pre>
+
+<p>Calculate page rank with the Power-Iteration method which you've implemented in the previous stage. Apply the iteration method so that the difference between the <span class="math-tex">\(r_{_{i}}\)</span> and <span class="math-tex">\(r_{_{i+1}}\)</span> is less or equal to 0.01 and print the vector with a precision of 3 decimal places.</p>
+
+<p>That's no good! George seems to be taking all the traffic on the micro-internet, and somehow coming at the top of the PageRank. This is understandable because once a user gets to George's Website, they can't leave, as all links head back to George.</p>
+
+<p>To combat this, we can add a small probability that the users don't follow any link on a webpage, but instead, visit a website on the micro-internet at random. We'll say the probability of them following a link is d and the probability of choosing a random website is therefore 1−d . We can use a new matrix to work out where the user is going each minute.</p>
+
+<p style="text-align: center;"><span class="math-tex">\(M = dL_{_2} + \frac{1-d}{n}J\)</span></p>
+
+<p>Where</p>
+
+<p><strong>d</strong> is Damping Factor;</p>
+
+<p><strong>M</strong> is a new matrix that adds the probability of a random visit to a page that the current page doesn’t contain links to;</p>
+
+<p><strong>L2</strong> is our undamped matrix, from above;</p>
+
+<p><strong>n</strong> is a number of sites on micro-internet (dimension of a matrix);</p>
+
+<p>and <strong>J</strong> is a matrix where every element is 1.</p>
+
+<p>If <strong>d</strong> is one, we have the case we had previously, whereas if <strong>d</strong> is zero, we will always visit a random webpage and therefore all webpages will be equally likely and equally ranked. For this extension to work best, <strong>1−d</strong> should be somewhat small, though we won't discuss how small exactly.</p>
+
+<p>From the mathematical perspective, we are adding a slight probability of jumping to a random website, without having a link to it on the current site. That probability is inversely related to the parameter <strong>d</strong>, in other words, the less <strong>d</strong> is, the higher is the probability of jumping to a random page.</p>
+
+<p>Now, calculate PageRank for the network using the Power-Iteration method with a damping parameter d = 0.5 and precision 0.01. Make sure you're now using matrix M instead of L2 so that we obtain the result of the damped system. Print the resulting PageRank.</p>
+
+<p>Here are the methods to perform arithmetic operations between matrices and numbers:</p>
+
+<pre><code class="language-java">// is possible if m1 and m2 are matrices of same dimensions and d is a number
+m1.plus(m2); //matrix summation
+m1.times(d); //multiply matrix by number</code></pre>
+
+<p>This is certainly better, the PageRank gives sensible numbers for the users that end up on each webpage. However, this method still predicts that George has a high ranking webpage. This could be seen as a consequence of using a small network. We could also get around the problem by not counting self-links when producing the L matrix (and if a website has no outgoing links, make it link to all websites equally). We won't look further down this route, as this is in the realm of improvements to PageRank, rather than eigenproblems.</p>
+
+<p>You are now in a good position, having gained an understanding of PageRank, to produce your own code to calculate the PageRank of a website with thousands of entries.</p>
+
+<p>Good Luck!</p>
+
+<h2 style="text-align: center;">Example</h2>
+
+<p>Example of the program output on this stage - first, we print out L2, then the PageRank vector without damping (ie., the result of Power Iteration using L2), and finally the PageRank vector with damping (ie., the result using M). Note that this is provided as a formatting reference - your numbers will be different than these. </p>
+
+<pre><code class="language-no-highlight">0.000 0.500 0.333 0.000 0.000 100.000 0.000
+0.333 0.000 0.000 0.000 0.500 100.000 0.000
+0.333 0.500 0.000 1.000 0.000 100.000 0.000
+0.333 0.000 0.333 0.000 0.500 100.000 0.000
+0.000 0.000 0.000 0.000 0.000 100.000 0.000
+0.000 0.000 0.333 0.000 0.000 100.000 0.000
+0.000 0.000 0.000 0.000 0.000 100.000 1.000
+
+15.000
+15.000
+15.000
+15.000
+15.000
+25.000
+35.000
+
+15.000
+15.000
+15.000
+15.000
+15.000
+25.000
+35.000
+</code></pre>

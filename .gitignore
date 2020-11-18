@@ -1,0 +1,6 @@
+# Project exclude paths
+/.gradle/
+/PageRank/task/build/
+/PageRank/task/out/
+/PageRank/task/out/production/classes/
+/PageRank/task/out/test/classes/
